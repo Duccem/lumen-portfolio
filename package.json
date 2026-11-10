@@ -1,0 +1,33 @@
+{
+  "name": "portfolio",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "type": "module",
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "check-types": "turbo run check-types",
+    "dev:web": "turbo run dev -F web --",
+    "db:push": "turbo run db:push -F @portfolio/db --",
+    "db:studio": "turbo run db:studio -F @portfolio/db --",
+    "db:generate": "turbo run db:generate -F @portfolio/db --",
+    "db:migrate": "turbo run db:migrate -F @portfolio/db --",
+    "env:generate": "varlock codegen --path ./apps/web/ && varlock codegen --path ./packages/db/",
+    "postinstall": "varlock codegen --path ./apps/web/ && varlock codegen --path ./packages/db/",
+    "auth:generate": "cd apps/web && pnpm run auth:generate"
+  },
+  "dependencies": {
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@portfolio/config": "workspace:*",
+    "@types/node": "catalog:",
+    "turbo": "^2.11.7",
+    "typescript": "catalog:",
+    "varlock": "catalog:"
+  },
+  "packageManager": "pnpm@11.5.1"
+}
