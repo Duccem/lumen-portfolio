@@ -16,7 +16,7 @@
     "db:generate": "turbo run db:generate -F @portfolio/db --",
     "db:migrate": "turbo run db:migrate -F @portfolio/db --",
     "env:generate": "varlock codegen --path ./apps/web/ && varlock codegen --path ./packages/db/",
-    "postinstall": "varlock codegen --path ./apps/web/ && varlock codegen --path ./packages/db/",
+    "postinstall": "varlock codegen --path ./apps/store/ && varlock codegen --path ./packages/db/",
     "auth:generate": "cd apps/web && pnpm run auth:generate"
   },
   "dependencies": {

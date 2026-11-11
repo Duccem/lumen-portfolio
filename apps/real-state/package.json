@@ -1,5 +1,5 @@
 {
-  "name": "web",
+  "name": "real-state",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -11,12 +11,14 @@
     "auth:generate": "varlock run -- pnpm dlx auth@latest generate --config src/services.ts --output ../../packages/db/src/schema/auth.ts --yes"
   },
   "dependencies": {
-    "@portfolio/auth": "workspace:*",
-    "@portfolio/db": "workspace:*",
+    "@neondatabase/serverless": "^1.1.0",
+    "drizzle-orm": "catalog:",
     "@portfolio/ui": "workspace:*",
     "@swc/helpers": "^0.5.23",
     "@tanstack/react-form": "^1.33.5",
     "@varlock/nextjs-integration": "1.2.5",
+    "@better-auth/core": "1.7.12",
+    "@better-auth/drizzle-adapter": "1.7.12",
     "babel-plugin-react-compiler": "^1.0.0",
     "better-auth": "catalog:",
     "lucide-react": "catalog:",
@@ -35,6 +37,8 @@
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "tailwindcss": "catalog:",
-    "typescript": "catalog:"
+    "drizzle-kit": "1.0.0-rc.5",
+    "typescript": "catalog:",
+    "varlock": "catalog:"
   }
 }

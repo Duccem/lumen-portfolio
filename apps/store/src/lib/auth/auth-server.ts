@@ -1,6 +1,6 @@
 import { drizzleAdapter } from "@better-auth/drizzle-adapter/relations-v2";
-import type { Database } from "@portfolio/db";
-import * as schema from "@portfolio/db/schema/auth";
+import type { Database } from "../database";
+import * as schema from "../database/schema/auth";
 import { betterAuth } from "better-auth";
 import { nextCookies } from "better-auth/next-js";
 
@@ -24,3 +24,4 @@ export function createAuth(env: AuthConfig, database: Database) {
 }
 
 export type Session = ReturnType<typeof createAuth>["$Infer"]["Session"];
+
