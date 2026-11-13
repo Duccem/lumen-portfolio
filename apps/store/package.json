@@ -11,6 +11,9 @@
     "auth:generate": "varlock run -- pnpm dlx auth@latest generate --config src/services.ts --output ../../packages/db/src/schema/auth.ts --yes"
   },
   "dependencies": {
+    "@base-ui/react": "^1.9.0",
+    "@hugeicons/core-free-icons": "^3.3.0",
+    "@hugeicons/react": "^1.1.10",
     "@neondatabase/serverless": "^1.1.0",
     "drizzle-orm": "catalog:",
     "@portfolio/ui": "workspace:*",
@@ -21,6 +24,7 @@
     "@better-auth/drizzle-adapter": "1.7.12",
     "babel-plugin-react-compiler": "^1.0.0",
     "better-auth": "catalog:",
+    "class-variance-authority": "^0.7.1",
     "lucide-react": "catalog:",
     "next": "^16.3.4",
     "next-themes": "catalog:",
@@ -28,6 +32,7 @@
     "react-dom": "catalog:",
     "sonner": "catalog:",
     "varlock": "catalog:",
+    "vaul": "^1.1.2",
     "zod": "catalog:"
   },
   "devDependencies": {

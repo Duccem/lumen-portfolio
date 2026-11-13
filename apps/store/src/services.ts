@@ -1,5 +1,5 @@
-import { createAuth } from "@portfolio/auth";
-import { createDb } from "@portfolio/db";
+import { createAuth } from "./lib/auth/auth-server";
+import { createDb } from "./lib/database";
 
 import { ENV } from "./env.server";
 
