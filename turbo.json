@@ -3,39 +3,88 @@
   "ui": "tui",
   "tasks": {
     "build": {
-      "dependsOn": ["^build"],
-      "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": ["dist/**", ".next/**", "!.next/cache/**"]
+      "dependsOn": [
+        "^build"
+      ],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        ".env*"
+      ],
+      "outputs": [
+        "dist/**",
+        ".next/**",
+        "!.next/cache/**"
+      ]
     },
     "lint": {
-      "dependsOn": ["^lint"]
+      "dependsOn": [
+        "^lint"
+      ]
     },
     "check-types": {
-      "dependsOn": ["^check-types"]
+      "dependsOn": [
+        "^check-types"
+      ]
     },
     "dev": {
       "cache": false,
       "persistent": true
     },
     "start": {
-      "dependsOn": ["build"],
+      "dependsOn": [
+        "build"
+      ],
       "cache": false,
       "persistent": true,
-      "passThroughEnv": ["*"]
+      "passThroughEnv": [
+        "*"
+      ]
     },
-    "db:push": {
+    "db:push:store": {
       "cache": false,
       "interactive": true
     },
-    "db:generate": {
+    "db:generate:store": {
       "cache": false,
       "interactive": true
     },
-    "db:migrate": {
+    "db:migrate:store": {
       "cache": false,
       "interactive": true
     },
-    "db:studio": {
+    "db:studio:store": {
+      "cache": false,
+      "persistent": true
+    },
+    "db:push:real-state": {
+      "cache": false,
+      "interactive": true
+    },
+    "db:generate:real-state": {
+      "cache": false,
+      "interactive": true
+    },
+    "db:migrate:real-state": {
+      "cache": false,
+      "interactive": true
+    },
+    "db:studio:real-state": {
+      "cache": false,
+      "persistent": true
+    },
+    "db:push:services": {
+      "cache": false,
+      "interactive": true
+    },
+    "db:generate:services": {
+      "cache": false,
+      "interactive": true
+    },
+    "db:migrate:services": {
+      "cache": false,
+      "interactive": true
+    },
+    "db:studio:services": {
       "cache": false,
       "persistent": true
     }
@@ -52,5 +101,9 @@
     "VERCEL_URL",
     "_VARLOCK_ENV_KEY"
   ],
-  "globalDependencies": [".env*", "apps/*/.env*", "packages/*/.env*"]
+  "globalDependencies": [
+    ".env*",
+    "apps/*/.env*",
+    "packages/*/.env*"
+  ]
 }
