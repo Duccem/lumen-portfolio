@@ -6,9 +6,9 @@ import { ThemeProvider } from "./theme-provider";
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   return (
-    <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+    <ThemeProvider attribute="class" forcedTheme="dark" enableSystem={false} disableTransitionOnChange>
       {children}
-      <Toaster richColors />
+      <Toaster position="bottom-center" theme="dark" toastOptions={{ style: { borderRadius: 8 } }} />
     </ThemeProvider>
   );
 }

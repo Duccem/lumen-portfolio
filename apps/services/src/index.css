@@ -1,1 +1,520 @@
 @import "@portfolio/ui/globals.css";
+
+/*
+ * Bay Seven — black and crimson, a board of filled tiles.
+ * One ground, one ink, one accent (crimson: the action, the current stage, a few characters).
+ * Tiles are separated by 8px gaps and tone steps, never by lines or shadows at rest.
+ */
+
+:root,
+:root[data-theme="light"],
+:root[data-theme="dark"] {
+  --bg: #0a0a0a;
+  --surface: #151515;
+  --surface-2: #1f1f1f;
+  --surface-3: #2b2b2b;
+  --ink: #efefef;
+  --muted: #ababab;
+  --accent: #b11226;
+  --accent-strong: #8e0d1d;
+  --accent-ink: #ffffff;
+  --field-1: #efefef;
+  --field-1-ink: #0a0a0a;
+  --field-1-muted: #4a4a4a;
+  --mid: #8c8c8c;
+  --mid-ink: #0a0a0a;
+
+  /* Five type steps, nothing else. */
+  --step-small: clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem);
+  --step-body: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+  --step-lead: clamp(1.25rem, 1.1rem + 0.7vw, 1.625rem);
+  --step-head: clamp(2rem, 1.3rem + 3.2vw, 4rem);
+  --step-display: clamp(3.5rem, 2rem + 5.4vw, 6.5rem);
+
+  --margin: 12px;
+  --gap: 8px;
+  --radius: 0.5rem;
+  --tile-pad: clamp(18px, 1.6vw, 24px);
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.76, 0, 0.24, 1);
+  --ease-soft: cubic-bezier(0.33, 1, 0.68, 1);
+  --t-press: 140ms;
+  --t-hover: 180ms;
+  --t-ui: 240ms;
+  --t-reveal: 800ms;
+
+  /* shadcn token mapping so shared @portfolio/ui components follow the palette */
+  --background: var(--bg);
+  --foreground: var(--ink);
+  --card: var(--surface);
+  --card-foreground: var(--ink);
+  --popover: var(--surface-2);
+  --popover-foreground: var(--ink);
+  --primary: var(--accent);
+  --primary-foreground: var(--accent-ink);
+  --secondary: var(--surface);
+  --secondary-foreground: var(--ink);
+  --muted-foreground: var(--muted);
+  --accent-foreground: var(--ink);
+  --border: var(--surface-2);
+  --input: var(--surface-2);
+  --ring: var(--ink);
+}
+
+@theme inline {
+  --font-sans: var(--ff-text), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--ff-head), var(--ff-text), ui-sans-serif, sans-serif;
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-ink: var(--ink);
+  --color-soft: var(--muted);
+  --color-crimson: var(--accent);
+  --color-crimson-strong: var(--accent-strong);
+  --color-field: var(--field-1);
+  --color-field-ink: var(--field-1-ink);
+  --color-field-soft: var(--field-1-muted);
+  --color-mid: var(--mid);
+  --radius-tile: var(--radius);
+}
+
+html {
+  background: var(--bg);
+  color: var(--ink);
+  color-scheme: dark;
+  scroll-behavior: smooth;
+}
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--ff-text), ui-sans-serif, system-ui, sans-serif;
+  font-size: var(--step-body);
+  line-height: 1.5;
+}
+::selection {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}
+
+@layer components {
+  /* ---------- Type ---------- */
+  .t-display {
+    font-family: var(--ff-head), sans-serif;
+    font-size: var(--step-display);
+    font-weight: 300;
+    letter-spacing: -0.022em;
+    line-height: 1;
+  }
+  .t-head {
+    font-family: var(--ff-head), sans-serif;
+    font-size: var(--step-head);
+    font-weight: 300;
+    letter-spacing: -0.022em;
+    line-height: 1.05;
+  }
+  .t-lead {
+    font-size: var(--step-lead);
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+  }
+  .t-body {
+    font-size: var(--step-body);
+    line-height: 1.5;
+  }
+  .t-small {
+    font-size: var(--step-small);
+    line-height: 1.4;
+  }
+  .tnum {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ---------- Board ---------- */
+  .page-x {
+    padding-inline: var(--margin);
+  }
+  .board {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: var(--gap);
+  }
+  .tile {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius);
+    background: var(--surface);
+    padding: var(--tile-pad);
+  }
+  .tile-photo {
+    padding: 0;
+    background: var(--surface-2);
+  }
+  .tile-photo img,
+  .tile-photo video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* One treatment for every photograph: a little colour taken out so the set reads as one family. */
+  .photo img,
+  .photo video,
+  .tile-photo img,
+  .tile-photo video {
+    filter: saturate(0.72) contrast(1.04);
+  }
+
+  /* ---------- Controls ---------- */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6em;
+    min-height: 48px;
+    padding: 0 1.5rem;
+    border-radius: 999px;
+    background: var(--accent);
+    color: var(--accent-ink);
+    font-size: var(--step-small);
+    font-weight: 500;
+    white-space: nowrap;
+    cursor: pointer;
+    transition:
+      transform var(--t-press) var(--ease-out),
+      background-color var(--t-hover) ease;
+  }
+  .btn:active {
+    transform: scale(0.97);
+  }
+  .btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.45;
+  }
+  .btn-ink {
+    background: var(--field-1);
+    color: var(--field-1-ink);
+  }
+  .btn-quiet {
+    background: var(--surface-2);
+    color: var(--ink);
+  }
+  .btn .arrow {
+    transition: transform var(--t-ui) var(--ease-out);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .btn:not(:disabled):hover {
+      background: var(--accent-strong);
+    }
+    .btn-ink:not(:disabled):hover {
+      background: #d6d6d6;
+    }
+    .btn-quiet:not(:disabled):hover {
+      background: var(--surface-3);
+    }
+    .btn:hover .arrow {
+      transform: translateX(4px);
+    }
+  }
+
+  /* Underline that draws in from the left. */
+  .link {
+    position: relative;
+    display: inline-block;
+  }
+  .link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -0.15em;
+    height: 2px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 380ms var(--ease-out);
+  }
+  .link-on::after {
+    transform: scaleX(1);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .link:hover::after {
+      transform: scaleX(1);
+    }
+  }
+
+  /* Form fields: filled, no outline at rest. */
+  .field {
+    width: 100%;
+    min-height: 52px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    color: var(--ink);
+    padding: 0 16px;
+    font-size: var(--step-body);
+    transition: background-color var(--t-hover) ease;
+  }
+  textarea.field {
+    padding-block: 14px;
+    min-height: 104px;
+    resize: vertical;
+  }
+  .field::placeholder {
+    color: var(--muted);
+  }
+  .field:hover {
+    background: var(--surface-3);
+  }
+  .field:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 0;
+  }
+  select.field {
+    appearance: none;
+    cursor: pointer;
+  }
+  .on-field .field {
+    background: #dcdcdc;
+    color: var(--field-1-ink);
+  }
+  .on-field .field::placeholder {
+    color: var(--field-1-muted);
+  }
+  .on-field .field:hover {
+    background: #d0d0d0;
+  }
+  .on-field .field:focus-visible {
+    outline-color: var(--field-1-ink);
+  }
+
+  /* Pressable tile: the whole surface is the control. */
+  .press {
+    cursor: pointer;
+    transition:
+      transform var(--t-press) var(--ease-out),
+      background-color var(--t-hover) ease;
+  }
+  .press:active {
+    transform: scale(0.985);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .press:hover {
+      background-color: var(--surface-2);
+    }
+  }
+
+  .zoom img {
+    transition: transform 1100ms var(--ease-soft);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .zoom:hover img,
+    a:hover > .zoom img,
+    .group:hover .zoom img {
+      transform: scale(1.05);
+    }
+  }
+
+  /* Plus that turns into a minus: two 3px bars, 16px long. */
+  .plus {
+    position: relative;
+    width: 16px;
+    height: 16px;
+    flex: none;
+  }
+  .plus::before,
+  .plus::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 6.5px;
+    width: 16px;
+    height: 3px;
+    border-radius: 2px;
+    background: currentColor;
+    transition: transform var(--t-ui) var(--ease-out);
+  }
+  .plus::after {
+    transform: rotate(90deg);
+  }
+  details[open] > summary .plus::after {
+    transform: rotate(0deg);
+  }
+  summary {
+    list-style: none;
+    cursor: pointer;
+  }
+  summary::-webkit-details-marker {
+    display: none;
+  }
+}
+
+/* ---------- Motion ---------- */
+@keyframes rise {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes frame-in {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes slow-drift {
+  from {
+    transform: scale(1.08) translate3d(-1.2%, 0, 0);
+  }
+  to {
+    transform: scale(1.08) translate3d(1.2%, -1%, 0);
+  }
+}
+@keyframes tag-swing {
+  0% {
+    transform: rotate(-7deg);
+  }
+  45% {
+    transform: rotate(4deg);
+  }
+  75% {
+    transform: rotate(-2deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+@keyframes pulse-dot {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.6);
+    opacity: 0.35;
+  }
+}
+@keyframes bump {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.35);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Entrances for the parts of each section. Hidden only when script is present. */
+  .js [data-reveal] {
+    opacity: 0;
+    transform: translateY(24px);
+    transition:
+      opacity 700ms var(--ease-out),
+      transform 900ms var(--ease-out);
+    transition-delay: calc(var(--i, 0) * 75ms);
+  }
+  .js [data-reveal].is-in {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Hero frames drop onto the board one after another. */
+  .js .frame-in {
+    opacity: 0;
+    transform: translateY(28px);
+    animation: frame-in 900ms var(--ease-out) forwards;
+    animation-delay: calc(var(--i, 0) * 70ms + 120ms);
+  }
+
+  /* Signature move: the showcase board opens like a roller door. */
+  .js .shutter > .shutter-in {
+    clip-path: inset(0 0 100% 0);
+    transform: scale(1.06);
+    transform-origin: top;
+    transition:
+      clip-path 1100ms var(--ease-in-out),
+      transform 1500ms var(--ease-soft);
+  }
+  .js .shutter.is-in > .shutter-in {
+    clip-path: inset(0 0 0 0);
+    transform: none;
+  }
+
+  /* The visit diagram: squares settle into place from symptoms to finished work. */
+  .js .flow rect {
+    opacity: 0;
+    transform: translateY(10px);
+    transition:
+      opacity 600ms var(--ease-out),
+      transform 800ms var(--ease-out);
+  }
+  .js .flow.is-in rect {
+    opacity: 1;
+    transform: none;
+  }
+
+  .drift img {
+    animation: slow-drift 20s var(--ease-in-out) infinite alternate;
+  }
+  .tag-swing {
+    transform-origin: 50% 0;
+    animation: tag-swing 900ms var(--ease-out);
+  }
+  .pulse-dot {
+    animation: pulse-dot 1.6s ease-in-out infinite;
+  }
+  .bump {
+    animation: bump 420ms var(--ease-out);
+  }
+  .enter {
+    opacity: 0;
+    transform: translateY(16px);
+    animation: rise 600ms var(--ease-out) forwards;
+    animation-delay: calc(var(--i, 0) * 60ms);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Expandable blocks */
+@layer components {
+  .expand {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 450ms var(--ease-out);
+  }
+  .expand > * {
+    overflow: hidden;
+  }
+  .expand[data-open="true"] {
+    grid-template-rows: 1fr;
+  }
+}
+
+/* Hero photograph settles from a slight zoom as the page opens */
+@keyframes hero-settle {
+  from {
+    transform: scale(1.08);
+  }
+  to {
+    transform: none;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .js .hero-photo img {
+    animation: hero-settle 2400ms var(--ease-soft) both;
+  }
+}

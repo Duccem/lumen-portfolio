@@ -2,7 +2,7 @@
 node_modules
 .pnp
 .pnp.js
-
+.taste-skill
 # Build outputs
 dist
 build
