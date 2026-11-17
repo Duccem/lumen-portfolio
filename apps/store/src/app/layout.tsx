@@ -33,9 +33,11 @@ export default function RootLayout({
     <html lang="es" suppressHydrationWarning>
       <body
         className={`${dmSans.variable} ${playfair.variable} ${geistMono.variable} font-sans antialiased`}
+        suppressHydrationWarning
       >
         <Providers>{children}</Providers>
       </body>
     </html>
   );
 }
+

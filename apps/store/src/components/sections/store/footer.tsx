@@ -37,7 +37,7 @@ export function Footer() {
       {/* Giant Background Text */}
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 pointer-events-none select-none z-0">
         <span className="font-serif text-[200px] sm:text-[200px] md:text-[400px] lg:text-[400px] xl:text-[400px] font-bold text-white/20 whitespace-nowrap leading-none">
-          Salome
+          Glow
         </span>
       </div>
 
@@ -45,7 +45,7 @@ export function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mb-16">
           {/* Brand */}
           <div className="col-span-2 md:col-span-1">
-            <h2 className="font-serif text-3xl text-foreground mb-4">Salome</h2>
+            <h2 className="font-serif text-3xl text-foreground mb-4">Glow Market</h2>
             <p className="text-sm text-muted-foreground leading-relaxed mb-6">
               Maquillaje para quienes quieren verse bien y sentirse auténticas
               todos los días.
@@ -137,7 +137,7 @@ export function Footer() {
         <div className="pt-10 border-t border-border/50">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="text-sm text-muted-foreground">
-              © {new Date().getFullYear()} Salome. Todos los derechos
+              © {new Date().getFullYear()} Glow Market. Todos los derechos
               reservados.
             </p>
             <div className="flex gap-6">

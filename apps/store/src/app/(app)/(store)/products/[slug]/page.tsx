@@ -204,7 +204,7 @@ export default function ProductPage() {
               {/* Header */}
               <div className="mb-8">
                 <span className="text-sm tracking-[0.3em] uppercase text-primary mb-2 block">
-                  Esenciales Salome
+                  Esenciales Glow Market
                 </span>
                 <h1 className="font-serif text-4xl md:text-5xl text-foreground mb-3">
                   {product.name}

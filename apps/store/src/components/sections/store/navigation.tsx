@@ -58,7 +58,7 @@ export function Header() {
             href="/"
             className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center gap-0"
           >
-            <img src="/images/LogoSalomeNegro.avif" alt="" className="h-12" />
+            <span className="font-serif text-3xl tracking-wide text-foreground">Glow Market</span>
           </Link>
 
           {/* Right Actions */}

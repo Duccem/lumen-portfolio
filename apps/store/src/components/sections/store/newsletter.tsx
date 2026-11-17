@@ -33,7 +33,7 @@ export function Newsletter() {
             <div className="inline-flex items-center gap-3 bg-primary-foreground/10 backdrop-blur-sm rounded-full px-8 py-4">
               <Check className="w-5 h-5 text-primary-foreground" />
               <span className="text-primary-foreground">
-                ¡Bienvenida a la comunidad Salome!
+                ¡Bienvenida a la comunidad Glow Market!
               </span>
             </div>
           ) : (

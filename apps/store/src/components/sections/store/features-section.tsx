@@ -249,7 +249,7 @@ export function FeaturesSection() {
                   : {}
               }
             >
-              Por qué Salome
+              Por qué Glow Market
             </span>
             <h2
               className={`font-serif text-4xl leading-tight text-foreground mb-6 text-balance md:text-7xl ${headerVisible ? "animate-blur-in opacity-0" : "opacity-0"}`}
