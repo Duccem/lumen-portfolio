@@ -1,1 +1,488 @@
 @import "@portfolio/ui/globals.css";
+
+/*
+ * Lintel — olive on bone.
+ * One ground, one ink, one accent (the same olive, filled on the action).
+ * Surfaces are separated by tone steps, never by lines or shadows at rest.
+ */
+
+:root {
+  --bg: #ecebe7;
+  --surface: #e1dfd9;
+  --surface-2: #d5d3cb;
+  --ink: #38450f;
+  --muted: #5d683a;
+  --accent: #38450f;
+  --accent-strong: #26300a;
+  --accent-ink: #ecebe7;
+  --field-1: #38450f;
+  --field-1-ink: #ecebe7;
+
+  /* Five type steps, nothing else. */
+  --step-small: clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem);
+  --step-body: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+  --step-lead: clamp(1.25rem, 1.1rem + 0.7vw, 1.625rem);
+  --step-head: clamp(2rem, 1.3rem + 3.2vw, 4rem);
+  --step-display: clamp(4.5rem, 8.3vw, 8rem);
+
+  --margin: clamp(20px, 6vw, 96px);
+  --gap: clamp(12px, 1.6vw, 24px);
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.76, 0, 0.24, 1);
+  --ease-soft: cubic-bezier(0.33, 1, 0.68, 1);
+  --t-press: 140ms;
+  --t-hover: 180ms;
+  --t-ui: 240ms;
+  --t-reveal: 800ms;
+
+  /* shadcn token mapping so shared @portfolio/ui components follow the palette */
+  --background: var(--bg);
+  --foreground: var(--ink);
+  --card: var(--surface);
+  --card-foreground: var(--ink);
+  --popover: var(--bg);
+  --popover-foreground: var(--ink);
+  --primary: var(--accent);
+  --primary-foreground: var(--accent-ink);
+  --secondary: var(--surface);
+  --secondary-foreground: var(--ink);
+  --muted-foreground: var(--muted);
+  --accent-foreground: var(--ink);
+  --border: var(--surface-2);
+  --input: var(--surface-2);
+  --ring: var(--ink);
+  --radius: 0rem;
+}
+
+@theme inline {
+  --font-sans: var(--font-clash), "Clash Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-ink: var(--ink);
+  --color-soft: var(--muted);
+  --color-field: var(--field-1);
+  --color-field-ink: var(--field-1-ink);
+}
+
+html {
+  background: var(--bg);
+  color: var(--ink);
+  scroll-behavior: smooth;
+}
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-clash), "Clash Grotesk", ui-sans-serif, system-ui, sans-serif;
+  font-size: var(--step-body);
+  line-height: 1.45;
+  font-feature-settings: "tnum" 0;
+}
+::selection {
+  background: var(--ink);
+  color: var(--bg);
+}
+:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}
+
+@layer components {
+/* ---------- Type ---------- */
+.t-display {
+  font-size: var(--step-display);
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  line-height: 0.95;
+}
+.t-head {
+  font-size: var(--step-head);
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  line-height: 0.98;
+}
+.t-lead {
+  font-size: var(--step-lead);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+}
+.t-body {
+  font-size: var(--step-body);
+  line-height: 1.45;
+}
+.t-small {
+  font-size: var(--step-small);
+  line-height: 1.4;
+}
+.tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Layout ---------- */
+.page-x {
+  padding-inline: var(--margin);
+}
+.grid-12 {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gap);
+}
+
+/* ---------- Photographs: one treatment for all ---------- */
+.photo {
+  position: relative;
+  overflow: hidden;
+  background: var(--surface);
+}
+.photo img,
+.photo video {
+  filter: saturate(0.78) contrast(1.02);
+}
+.zoom img {
+  transition: transform 1100ms var(--ease-soft);
+}
+@media (hover: hover) and (pointer: fine) {
+  .zoom:hover img,
+  a:hover > .zoom img,
+  .group:hover .zoom img {
+    transform: scale(1.045);
+  }
+}
+
+/* ---------- Controls ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6em;
+  min-height: 48px;
+  padding: 0 1.5rem;
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-size: var(--step-small);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  transition:
+    transform var(--t-press) var(--ease-out),
+    background-color var(--t-hover) ease;
+}
+.btn:active {
+  transform: scale(0.97);
+}
+.btn-quiet {
+  background: var(--surface);
+  color: var(--ink);
+}
+.btn .arrow {
+  transition: transform var(--t-ui) var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .btn:hover {
+    background: var(--accent-strong);
+  }
+  .btn-quiet:hover {
+    background: var(--surface-2);
+  }
+  .btn:hover .arrow {
+    transform: translateX(4px);
+  }
+}
+
+/* Underline that draws in from the left. */
+.link {
+  position: relative;
+  display: inline-block;
+}
+.link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.12em;
+  height: 0.09em;
+  min-height: 2px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 380ms var(--ease-out);
+}
+.link-on::after {
+  transform: scaleX(1);
+}
+@media (hover: hover) and (pointer: fine) {
+  .link:hover::after {
+    transform: scaleX(1);
+  }
+  .link-on:hover::after {
+    transform: scaleX(0.35);
+  }
+}
+
+}
+
+/* ---------- Motion ---------- */
+.lines .line {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.1em;
+  margin-bottom: -0.1em;
+}
+.lines [data-line] {
+  display: block;
+}
+@keyframes line-up {
+  to {
+    transform: none;
+  }
+}
+@keyframes rise {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes heart-pop {
+  0% {
+    transform: scale(1);
+  }
+  35% {
+    transform: scale(1.32);
+  }
+  65% {
+    transform: scale(0.92);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes slow-drift {
+  from {
+    transform: scale(1.08) translate3d(-1%, 0, 0);
+  }
+  to {
+    transform: scale(1.08) translate3d(1%, -1%, 0);
+  }
+}
+@keyframes draw-line {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .js .lines [data-line] {
+    transform: translateY(105%);
+    animation: line-up 900ms var(--ease-out) forwards;
+    animation-delay: calc(var(--i, 0) * 110ms + 150ms);
+  }
+  .js [data-rise] {
+    opacity: 0;
+    transform: translateY(18px);
+    animation: rise var(--t-reveal) var(--ease-out) forwards;
+    animation-delay: calc(var(--i, 0) * 90ms + 420ms);
+  }
+  .js [data-reveal] {
+    opacity: 0;
+    transform: translateY(24px);
+    transition:
+      opacity 700ms var(--ease-out),
+      transform 900ms var(--ease-out);
+    transition-delay: calc(var(--i, 0) * 80ms);
+  }
+  .js [data-reveal].is-in {
+    opacity: 1;
+    transform: none;
+  }
+  /* The clip sits on the picture, not the frame: a fully clipped frame never counts as intersecting. */
+  .js .shutter:not(.is-in) {
+    background: transparent;
+  }
+  .js .shutter img,
+  .js .shutter video {
+    clip-path: inset(0 0 100% 0);
+    transform: scale(1.12);
+    transition:
+      clip-path 1100ms var(--ease-in-out) calc(var(--i, 0) * 90ms),
+      transform 1500ms var(--ease-soft) calc(var(--i, 0) * 90ms);
+  }
+  .js .shutter.is-in img,
+  .js .shutter.is-in video {
+    clip-path: inset(0);
+    transform: none;
+  }
+  .drift img {
+    animation: slow-drift 18s var(--ease-in-out) infinite alternate;
+  }
+  .heart-pop {
+    animation: heart-pop 420ms var(--ease-out);
+  }
+  .enter {
+    opacity: 0;
+    transform: translateY(16px);
+    animation: rise 600ms var(--ease-out) forwards;
+    animation-delay: calc(var(--i, 0) * 60ms);
+  }
+}
+
+/* Reduced motion: no travel, finished state. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* ---------- Dual range (form control) ---------- */
+.range-dual input[type="range"] {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  appearance: none;
+  background: transparent;
+  pointer-events: none;
+  margin: 0;
+}
+.range-dual input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  pointer-events: auto;
+  width: 18px;
+  height: 18px;
+  background: var(--ink);
+  border: 3px solid var(--bg);
+  cursor: grab;
+  transition: transform var(--t-press) var(--ease-out);
+}
+.range-dual input[type="range"]::-moz-range-thumb {
+  pointer-events: auto;
+  width: 14px;
+  height: 14px;
+  background: var(--ink);
+  border: 3px solid var(--bg);
+  border-radius: 0;
+  cursor: grab;
+}
+.range-dual input[type="range"]:active::-webkit-slider-thumb {
+  transform: scale(1.25);
+  cursor: grabbing;
+}
+.range-dual input[type="range"]:focus-visible {
+  outline: none;
+}
+.range-dual input[type="range"]:focus-visible::-webkit-slider-thumb {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+/* Single range used by the mortgage calculator */
+.range-single {
+  appearance: none;
+  width: 100%;
+  height: 24px;
+  background: transparent;
+  cursor: pointer;
+}
+.range-single::-webkit-slider-runnable-track {
+  height: 3px;
+  background: transparent;
+}
+.range-single::-webkit-slider-thumb {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  margin-top: -7.5px;
+  background: var(--ink);
+  border: 3px solid var(--bg);
+  transition: transform var(--t-press) var(--ease-out);
+}
+.range-single:active::-webkit-slider-thumb {
+  transform: scale(1.25);
+}
+.range-single::-moz-range-track {
+  height: 3px;
+  background: var(--surface-2);
+}
+.range-single::-moz-range-progress {
+  height: 3px;
+  background: var(--ink);
+}
+.range-single::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  background: var(--ink);
+  border: 3px solid var(--bg);
+  border-radius: 0;
+}
+
+/* ---------- Drawn things: plans and the estimate line ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  .js .plan .plan-wall {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+  }
+  .js .plan.is-in .plan-wall {
+    animation: draw-line 1400ms var(--ease-in-out) forwards;
+    animation-delay: calc(var(--k, 0) * 70ms + 200ms);
+  }
+  .js .chart .chart-line {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+  }
+  .js .chart.is-in .chart-line {
+    animation: draw-line 1800ms var(--ease-in-out) 200ms forwards;
+  }
+  .js .chart .chart-dot {
+    opacity: 0;
+    transform-box: fill-box;
+    transform-origin: center;
+    transform: scale(0.6);
+  }
+  .js .chart.is-in .chart-dot {
+    animation: rise 500ms var(--ease-out) 1900ms forwards;
+  }
+  .js [data-reveal] .estimate-band {
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 1000ms var(--ease-out) 300ms;
+  }
+  .js [data-reveal].is-in .estimate-band {
+    transform: none;
+  }
+}
+
+@layer components {
+/* Expandable blocks (specifications, full description) */
+.expand {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 450ms var(--ease-out);
+}
+.expand > * {
+  overflow: hidden;
+  visibility: hidden;
+  transition: visibility 0s 450ms;
+}
+.expand[data-open="true"] {
+  grid-template-rows: 1fr;
+}
+.expand[data-open="true"] > * {
+  visibility: visible;
+  transition: none;
+}
+}
+
+/* Hero photograph settles from a slight zoom as the page opens */
+@keyframes hero-settle {
+  from {
+    transform: scale(1.1);
+  }
+  to {
+    transform: none;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .js .hero-photo img {
+    animation: hero-settle 2400ms var(--ease-soft) both;
+  }
+}

@@ -1,0 +1,26 @@
+[
+ {
+  "file": "apps/real-state/public/video/sea-surface.webm",
+  "media": "video",
+  "poster": "apps/real-state/public/video/sea-surface-poster.jpg",
+  "ref": "commons:92787583",
+  "title": "Ocean surface waves 10",
+  "creator": "Mostafameraji",
+  "creatorUrl": null,
+  "date": "2020-07-05",
+  "license": "CC0",
+  "licenseCode": "cc0",
+  "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "creditRequired": false,
+  "page": "https://commons.wikimedia.org/wiki/File:Ocean_surface_waves_10.ogv",
+  "via": "Wikimedia Commons",
+  "video": "https://upload.wikimedia.org/wikipedia/commons/transcoded/d/dc/Ocean_surface_waves_10.ogv/Ocean_surface_waves_10.ogv.480p.vp9.webm",
+  "width": 854,
+  "height": 480,
+  "duration": 18.3,
+  "bytes": 1899366,
+  "credit": "\"Ocean surface waves 10\" by Mostafameraji, CC0, via Wikimedia Commons",
+  "notes": [],
+  "saved": "2026-11-17T17:51:15.083Z"
+ }
+]

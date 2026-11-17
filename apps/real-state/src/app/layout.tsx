@@ -1,23 +1,25 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import localFont from "next/font/local";
 
 import "../index.css";
-import Header from "@/components/header";
 import Providers from "@/components/providers";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const clash = localFont({
+  variable: "--font-clash",
+  display: "swap",
+  src: [
+    { path: "../fonts/ClashGrotesk-Regular.woff2", weight: "400", style: "normal" },
+    { path: "../fonts/ClashGrotesk-Medium.woff2", weight: "500", style: "normal" },
+  ],
 });
 
 export const metadata: Metadata = {
-  title: "portfolio",
-  description: "portfolio",
+  title: {
+    default: "Lintel — architect-signed homes on the Iberian coast",
+    template: "%s · Lintel",
+  },
+  description:
+    "Twelve architect-signed houses a season, from Sintra to the Costa Brava. Visited, measured and photographed before they are listed.",
 };
 
 export default function RootLayout({
@@ -26,14 +28,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <Providers>
-          <div className="grid grid-rows-[auto_1fr] h-svh">
-            <Header />
-            {children}
-          </div>
-        </Providers>
+    <html lang="en" className={clash.variable} suppressHydrationWarning>
+      <head>
+        {/* Hidden starting states for motion only apply once this class exists. */}
+        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
+      </head>
+      <body className="font-sans antialiased" suppressHydrationWarning>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
