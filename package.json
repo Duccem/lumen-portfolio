@@ -27,7 +27,8 @@
     "db:migrate:services": "turbo run db:migrate -F services --",
     "env:generate": "varlock codegen --path ./apps/store/ && varlock codegen --path ./apps/real-state/ && varlock codegen --path ./apps/services/",
     "postinstall": "varlock codegen --path ./apps/store/ && varlock codegen --path ./apps/real-state/ && varlock codegen --path ./apps/services/",
-    "auth:generate": "cd apps/store && pnpm run auth:generate"
+    "auth:generate": "cd apps/store && pnpm run auth:generate",
+    "dev:prices": "turbo run dev -F prices --"
   },
   "dependencies": {
     "zod": "catalog:"

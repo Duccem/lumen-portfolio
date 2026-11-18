@@ -1,0 +1,21 @@
+{
+  "version": 2,
+  "skills": {
+    "mobile-app-ui-design": {
+      "source": "ceorkm/mobile-app-ui-design",
+      "commit": "0ad61f025fc647417d4b8fb0ca786cb493c5156a",
+      "sourceType": "github",
+      "skillPath": "SKILL.md",
+      "computedHash": "a7f5257845f24d24195d41dd2be378dc30843e5a50536ad0e96ebd2c65021341",
+      "installMode": "copy"
+    },
+    "react-native-design": {
+      "source": "wshobson/agents",
+      "commit": "42203085cfc5736204bf0f6d436dff7e1da0bf3f",
+      "sourceType": "github",
+      "skillPath": "plugins/ui-design/skills/react-native-design/SKILL.md",
+      "computedHash": "b2fd6aef0d35018c5d7eba1e5c5a3c538f762d5b0f3e8c84eb16e9b4c8c3a06f",
+      "installMode": "copy"
+    }
+  }
+}
