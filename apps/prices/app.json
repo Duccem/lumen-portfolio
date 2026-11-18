@@ -8,6 +8,7 @@
     "scheme": "prices",
     "userInterfaceStyle": "automatic",
     "ios": {
+      "bundleIdentifier": "com.lumen.preci",
       "icon": {
         "light": "./assets/images/icon.png",
         "dark": "./assets/images/icon-dark.png",
@@ -15,6 +16,7 @@
       }
     },
     "android": {
+      "package": "com.lumen.preci",
       "adaptiveIcon": {
         "backgroundColor": "#35C772",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
@@ -46,6 +48,16 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "router": {
+        "asyncRoutes": {
+          "web": true
+        }
+      },
+      "eas": {
+        "projectId": "1c480b33-9cce-40c3-a754-11a13cd4a880"
+      }
     }
   }
 }
